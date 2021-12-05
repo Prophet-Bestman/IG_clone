@@ -1,6 +1,5 @@
 {
   "private": true,
-  "description": "IG CLONE",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
