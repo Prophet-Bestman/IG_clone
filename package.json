@@ -1,6 +1,8 @@
 {
   "private": true,
-  "description": "IG_Clone",
+  "name": "ig_clone",
+  "version": "1.0.0",
+  "description": "Instagram Clone",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
