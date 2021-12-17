@@ -12,4 +12,7 @@
   .notification {
     @apply rounded-full bg-red-600 text-xs h-5 p-[7px] animate-bounce -top-2 left-4 text-white absolute flex items-center justify-center;
   }
+  .btn {
+    @apply h-7 hover:scale-110 cursor-pointer transition-all duration-150 ease-out;
+  }
 }
