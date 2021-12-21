@@ -12,11 +12,12 @@ import {
 
 function Header() {
   return (
-    <div className="top-0 z-50 bg-white border-b shadow-sm">
+    <div className="top-0 sticky z-50 bg-white border-b shadow-sm">
       <div className="flex justify-between mx-5 max-w-6xl xl:mx-auto">
         {/* Left */}
-        <div className="relative hidden lg:inline-grid h-24 cursor-pointer">
+        <div className="relative hidden lg:block w-24 cursor-pointer">
           <Image src="/instagram.png" layout="fill" objectFit="contain" />
+          {/* <img src="/instagram.png" height="200px" width="120px" alt="" /> */}
         </div>
         <div className="relative lg:hidden flex-shrink-0 w-10 cursor-pointer">
           <Image
