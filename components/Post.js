@@ -8,8 +8,10 @@ import {
   EmojiHappyIcon,
 } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
+import { useSession } from "next-auth/react";
 
 const Post = ({ post }) => {
+  const { data: session } = useSession();
   return (
     <div className="my-3.5">
       {/* Post  Header */}
@@ -28,12 +30,14 @@ const Post = ({ post }) => {
       </div>
       {/* Buttons */}
       <div className="flex space-x-1 my-4">
-        <HeartIcon className="btn" />
+        {session && <HeartIcon className="btn" />}
         <ChatIcon className="btn" />
-        <PaperAirplaneIcon className="btn" />
-        <div className="flex flex-1">
-          <BookmarkIcon className="btn ml-auto" />
-        </div>
+        {session && <PaperAirplaneIcon className="btn" />}
+        {session && (
+          <div className="flex flex-1">
+            <BookmarkIcon className="btn ml-auto" />
+          </div>
+        )}
       </div>
 
       {/* Caption */}
@@ -45,19 +49,21 @@ const Post = ({ post }) => {
       {/* Comments */}
 
       {/* Input Box */}
-      <form>
-        <div className="flex w-full items-center relative mt-2 p-3 rounded-md">
-          <div className="absolute pointer-events-none pl-3">
-            <EmojiHappyIcon className="h-5 text-gray-500" />
+      {session && (
+        <form>
+          <div className="flex w-full items-center relative mt-2 p-3 rounded-md">
+            <div className="absolute pointer-events-none pl-3">
+              <EmojiHappyIcon className="h-5 text-gray-500" />
+            </div>
+            <input
+              type="text"
+              placeholder="Type your comment"
+              className="focus:ring-black w-full rounded-md sm:text-sm bg-gray-50 border-gray-300 focus:border-black pl-10"
+            />
+            <button className="ml-5 font-bold text-blue-400">Post</button>
           </div>
-          <input
-            type="text"
-            placeholder="Type your comment"
-            className="focus:ring-black w-full rounded-md sm:text-sm bg-gray-50 border-gray-300 focus:border-black pl-10"
-          />
-          <button className="ml-5 font-bold text-blue-400">Post</button>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 };

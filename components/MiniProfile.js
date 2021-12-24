@@ -11,7 +11,7 @@ const MiniProfile = () => {
         className="rounded-full border p-[2px] w-16"
       />
       <div className="mx-7">
-        <h2 className="font-bold">Prophet Bestman</h2>
+        <h2 className="font-bold">{session?.user?.username}</h2>
         <h3 className="text-sm text-gray-500">Welcome to instagram</h3>
       </div>
 
