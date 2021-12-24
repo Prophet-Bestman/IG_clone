@@ -56,7 +56,7 @@ function Header() {
         {/* Right */}
 
         <div className="flex space-x-4 items-center">
-          <MenuIcon className="navMenu" />
+          {session && <MenuIcon className="navMenu" />}
           <HomeIcon onClick={() => router.push("/")} className="navBtn" />
           {session ? (
             <>
@@ -75,8 +75,10 @@ function Header() {
               />
             </>
           ) : (
-            <button className="text-sm text-blue-500 font-semibold">
-              <Link href="/auth/signin">Sign in</Link>
+            <button className="text-sm w-12 !ml-0 text-blue-500 font-semibold">
+              <Link className="text-left" href="/auth/signin">
+                Sign in
+              </Link>
             </button>
           )}
         </div>
