@@ -14,7 +14,7 @@ function Feed() {
       }`}
     >
       {/* Left Section */}
-      <section className="md:col-span-2 lg:col-span-2 px-3">
+      <section className="md:col-span-2 lg:col-span-2 p-0 md:px-3">
         <Stories />
         <Posts />
       </section>

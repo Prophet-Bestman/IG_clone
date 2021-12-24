@@ -23,7 +23,7 @@ function Stories() {
   }, [data]);
 
   return (
-    <div className="flex bg-white w-full space-x-2 overflow-x-scroll scrollbar-thumb-red-500 scrollbar-thin p-5">
+    <div className="flex bg-white w-full space-x-2 overflow-x-scroll scrollbar-thumb-red-500 scrollbar-thin py-5 px-1">
       {isLoading && <div>Loading stories...</div>}
       {session && (
         <Story img={session?.user?.image} name={session?.user?.name} />
