@@ -4,18 +4,6 @@ import Feed from "../components/Feed";
 import Header from "../components/Header";
 
 export default function Home() {
-  const [id, setId] = useState("");
-  const [secret, setSecret] = useState("");
-
-  // useEffect(() => {
-  //   setId(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
-  //   setSecret(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET);
-
-  //   console.log(`
-  //   ID: ${id}
-  //   Secret: ${secret}
-  //   `);
-  // });
   return (
     <div className="bg-gray-50 min-h-screen">
       <Head>
