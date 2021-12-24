@@ -19,7 +19,6 @@ function Stories() {
 
   useEffect(() => {
     setStories(data);
-    console.log(stories);
   }, [data]);
 
   return (
@@ -29,7 +28,6 @@ function Stories() {
         stories?.map((profile, i) => (
           <div key={i}>
             <Story img={profile.picture.large} name={profile.name} />
-            {console.log(profile.avatar)}
           </div>
         ))}
     </div>

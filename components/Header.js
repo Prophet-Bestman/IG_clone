@@ -13,7 +13,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 function Header() {
   const { data: session } = useSession();
-  console.log(session);
 
   return (
     <div className="top-0 sticky z-50 bg-white border-b shadow-sm">
