@@ -1,7 +1,13 @@
 import { getProviders, signIn } from "next-auth/react";
+import { useState } from "react";
 import Header from "../../components/Header";
 
 export default function SignIn({ providers }) {
+  const [loading, setLoading] = useState(false);
+  const handelSignin = (provider) => {
+    setLoading(true);
+    signIn(provider.id, { callbackUrl: "/" });
+  };
   return (
     <>
       <Header />
@@ -15,9 +21,9 @@ export default function SignIn({ providers }) {
             <div key={provider.name}>
               <button
                 className="bg-blue-500 text-white rounded-full py-3 px-5 text-lg font-semibold"
-                onClick={() => signIn(provider.id, { callbackUrl: "/" })}
+                onClick={() => handelSignin(provider)}
               >
-                Sign in with {provider.name}
+                {!loading ? `Sign in with ${provider.name}` : "Loading..."}
               </button>
             </div>
           ))}

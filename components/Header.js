@@ -10,6 +10,7 @@ import {
   PlusCircleIcon,
 } from "@heroicons/react/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 function Header() {
   const { data: session } = useSession();
@@ -66,11 +67,8 @@ function Header() {
               />
             </>
           ) : (
-            <button
-              onClick={signIn}
-              className="text-sm text-blue-500 font-semibold"
-            >
-              Sign in
+            <button className="text-sm text-blue-500 font-semibold">
+              <Link href="/auth/signin">Sign in</Link>
             </button>
           )}
         </div>
