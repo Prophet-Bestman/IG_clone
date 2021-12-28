@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import {
   SearchIcon,
@@ -12,10 +12,19 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { PostContext } from "../providers/posts/posts.provider";
+import { useContext } from "react";
+import { PostModalContext } from "../providers/modals/postmodal.provider";
 
 function Header() {
   const { data: session } = useSession();
   const router = useRouter();
+
+  const { isOpen, openModal } = useContext(PostModalContext);
+
+  useEffect(() => {
+    console.log(isOpen);
+  }, [isOpen]);
 
   return (
     <div className="top-0 sticky z-50 bg-white border-b shadow-sm">
@@ -64,7 +73,7 @@ function Header() {
                 <PaperAirplaneIcon className="navBtn rotate-45" />
                 <div className="notification ">3</div>
               </div>
-              <PlusCircleIcon className="navBtn" />
+              <PlusCircleIcon onClick={openModal} className="navBtn" />
               <UserGroupIcon className="navBtn" />
               <HeartIcon className="navBtn" />
               <img
