@@ -1,29 +1,77 @@
 import { getProviders, signIn } from "next-auth/react";
 import { useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+
 import Header from "../../components/Header";
+import { auth } from "../../firebase";
 
 export default function SignIn({ providers }) {
   const [loading, setLoading] = useState(false);
   const [signin, setSignin] = useState("login");
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setCredentials({
+      ...credentials,
+      [e.target.id]: value,
+    });
+  };
+
+  console.log("providers", providers);
 
   const handelSignin = (e) => {
     e.preventDefault();
     setLoading(true);
     console.log("Signin");
+    console.log(credentials);
+    const email = credentials.email;
+    const password = credentials.password;
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        console.log(cred.user);
+        const user = JSON.stringify(cred.user);
+        localStorage.setItem("user", user);
+      })
+      .catch((err) => console.log(err.message));
     // signIn(provider.id, { callbackUrl: "/" });
   };
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
     console.log("login");
+    console.log(credentials);
+    const email = credentials.email;
+    const password = credentials.password;
+    signInWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        console.log(cred.user);
+        const user = JSON.stringify(cred.user);
+        localStorage.setItem("user", user);
+      })
+      .catch((err) => console.log(err.message));
     // signIn(provider.id, { callbackUrl: "/" });
   };
 
   const handleSwitchToSignup = () => {
     setSignin("signup");
+    setCredentials({
+      email: "",
+      password: "",
+    });
   };
   const handleSwitchToLogin = () => {
     setSignin("login");
+    setCredentials({
+      email: "",
+      password: "",
+    });
   };
   return (
     <>
@@ -51,6 +99,8 @@ export default function SignIn({ providers }) {
                 id="email"
                 placeholder="Email"
                 type="text"
+                value={credentials.email}
+                onChange={(e) => handleChange(e)}
               />
               <input
                 autoFocus
@@ -58,30 +108,16 @@ export default function SignIn({ providers }) {
                 id="password"
                 placeholder="Password"
                 type="password"
+                value={credentials.password}
+                onChange={(e) => handleChange(e)}
               />
               <button
                 type="submit"
                 className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
               >
-                Log In
+                {signin === "signup" ? "Sign up" : "Log In"}
               </button>
             </form>
-            {/* <div className="flex justify-evenly space-x-2 w-64 mt-4">
-              <span className="bg-gray-300 h-px flex-grow t-2 relative top-2"></span>
-              <span className="flex-none uppercase text-xs text-gray-400 font-semibold">
-                or
-              </span>
-              <span className="bg-gray-300 h-px flex-grow t-2 relative top-2"></span>
-            </div>
-            <button className="mt-4 flex">
-              <div className="bg-no-repeat facebook-logo mr-1"></div>
-              <span className="text-xs text-blue-900 font-semibold">
-                Log in with Facebook
-              </span>
-            </button>
-            <a className="text-xs text-blue-900 mt-4 cursor-pointer -mb-4">
-              Forgot password?
-            </a> */}
           </div>
           {signin === "login" && (
             <div className="bg-white border border-gray-300 text-center w-80 py-4">
@@ -105,13 +141,6 @@ export default function SignIn({ providers }) {
               </button>
             </div>
           )}
-          <div className="mt-3 text-center">
-            <span className="text-xs">Get the app</span>
-            <div className="flex mt-3 space-x-2">
-              <div className="bg-no-repeat apple-store-logo"></div>
-              <div className="bg-no-repeat google-store-logo"></div>
-            </div>
-          </div>
         </div>
       </div>
     </>
