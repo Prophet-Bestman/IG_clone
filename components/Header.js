@@ -15,16 +15,14 @@ import { useRouter } from "next/router";
 import { PostContext } from "../providers/posts/posts.provider";
 import { useContext } from "react";
 import { PostModalContext } from "../providers/modals/postmodal.provider";
+import { AuthContext } from "../providers/auth/auth.provider";
 
 function Header() {
   const { data: session } = useSession();
   const router = useRouter();
 
   const { isOpen, openModal } = useContext(PostModalContext);
-
-  useEffect(() => {
-    console.log(isOpen);
-  }, [isOpen]);
+  const { user, setUser } = useContext(AuthContext);
 
   return (
     <div className="top-0 sticky z-50 bg-white border-b shadow-sm">
@@ -65,9 +63,9 @@ function Header() {
         {/* Right */}
 
         <div className="flex space-x-4 items-center">
-          {session && <MenuIcon className="navMenu" />}
+          {!!user && <MenuIcon className="navMenu" />}
           <HomeIcon onClick={() => router.push("/")} className="navBtn" />
-          {session ? (
+          {!!user ? (
             <>
               <div className="navBtn relative">
                 <PaperAirplaneIcon className="navBtn rotate-45" />
@@ -78,7 +76,7 @@ function Header() {
               <HeartIcon className="navBtn" />
               <img
                 onClick={signOut}
-                src={session?.user?.image}
+                src="/dp.jfif"
                 alt=""
                 className="rounded-full h-10 navBtn"
               />

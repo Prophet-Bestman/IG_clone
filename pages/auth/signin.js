@@ -7,10 +7,14 @@ import {
 
 import Header from "../../components/Header";
 import { auth } from "../../firebase";
+import { useRouter } from "next/router";
 
 export default function SignIn({ providers }) {
   const [loading, setLoading] = useState(false);
   const [signin, setSignin] = useState("login");
+
+  const router = useRouter();
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -24,38 +28,32 @@ export default function SignIn({ providers }) {
     });
   };
 
-  console.log("providers", providers);
-
   const handelSignin = (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log("Signin");
-    console.log(credentials);
     const email = credentials.email;
     const password = credentials.password;
     createUserWithEmailAndPassword(auth, email, password)
       .then((cred) => {
-        console.log(cred.user);
         const user = JSON.stringify(cred.user);
         localStorage.setItem("user", user);
+        router.push("/");
       })
-      .catch((err) => console.log(err.message));
+      .catch(() => {});
     // signIn(provider.id, { callbackUrl: "/" });
   };
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log("login");
-    console.log(credentials);
     const email = credentials.email;
     const password = credentials.password;
     signInWithEmailAndPassword(auth, email, password)
       .then((cred) => {
-        console.log(cred.user);
         const user = JSON.stringify(cred.user);
         localStorage.setItem("user", user);
+        router.push("/");
       })
-      .catch((err) => console.log(err.message));
+      .catch(() => {});
     // signIn(provider.id, { callbackUrl: "/" });
   };
 

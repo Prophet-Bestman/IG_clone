@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   BookmarkIcon,
   ChatIcon,
@@ -9,9 +9,11 @@ import {
 } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
+import { AuthContext } from "../providers/auth/auth.provider";
 
 const Post = ({ post }) => {
-  const { data: session } = useSession();
+  const { user, setUser } = useContext(AuthContext);
+
   return (
     <div className="my-3.5">
       {/* Post  Header */}
@@ -30,10 +32,10 @@ const Post = ({ post }) => {
       </div>
       {/* Buttons */}
       <div className="flex space-x-1 my-4">
-        {session && <HeartIcon className="btn" />}
+        {!!user && <HeartIcon className="btn" />}
         <ChatIcon className="btn" />
-        {session && <PaperAirplaneIcon className="btn" />}
-        {session && (
+        {!!user && <PaperAirplaneIcon className="btn" />}
+        {!!user && (
           <div className="flex flex-1">
             <BookmarkIcon className="btn ml-auto" />
           </div>
@@ -49,7 +51,7 @@ const Post = ({ post }) => {
       {/* Comments */}
 
       {/* Input Box */}
-      {session && (
+      {!!user && (
         <form>
           <div className="flex w-full items-center relative mt-2 p-3 rounded-md">
             <div className="absolute pointer-events-none pl-3">

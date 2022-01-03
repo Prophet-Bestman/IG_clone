@@ -25,10 +25,6 @@ const Modal = () => {
     };
   };
 
-  useEffect(() => {
-    console.log("Selected File: ", selectedFile);
-  }, [selectedFile]);
-
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
