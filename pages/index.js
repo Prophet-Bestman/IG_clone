@@ -11,7 +11,7 @@ export default function Home() {
   console.log("user", user);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
+  }, [setUser]);
   return (
     <div className="bg-gray-50 min-h-screen">
       <Head>
