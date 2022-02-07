@@ -1,4 +1,4 @@
-// import { getProviders, signIn } from "next-auth/react";
+import { getProviders, signIn } from "next-auth/react";
 import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -29,9 +29,8 @@ export default function SignIn({ providers }) {
   };
 
   const handelSignin = (e) => {
-    setLoading(true);
-    console.log("Signing In");
     e.preventDefault();
+    setLoading(true);
     const email = credentials.email;
     const password = credentials.password;
     createUserWithEmailAndPassword(auth, email, password)
@@ -40,16 +39,12 @@ export default function SignIn({ providers }) {
         localStorage.setItem("user", user);
         router.push("/");
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(() => {});
     // signIn(provider.id, { callbackUrl: "/" });
-    setLoading(false);
   };
   const handleLogin = (e) => {
-    console.log("Login In");
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
     const email = credentials.email;
     const password = credentials.password;
     signInWithEmailAndPassword(auth, email, password)
@@ -58,15 +53,11 @@ export default function SignIn({ providers }) {
         localStorage.setItem("user", user);
         router.push("/");
       })
-      .catch((err) => {
-        console.log(err);
-      });
-    setLoading(false);
+      .catch(() => {});
     // signIn(provider.id, { callbackUrl: "/" });
   };
 
   const handleSwitchToSignup = () => {
-    setLoading(false);
     setSignin("signup");
     setCredentials({
       email: "",
@@ -74,7 +65,6 @@ export default function SignIn({ providers }) {
     });
   };
   const handleSwitchToLogin = () => {
-    setLoading(false);
     setSignin("login");
     setCredentials({
       email: "",
@@ -119,22 +109,12 @@ export default function SignIn({ providers }) {
                 value={credentials.password}
                 onChange={(e) => handleChange(e)}
               />
-              {loading ? (
-                <button
-                  type="submit"
-                  disabled
-                  className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
-                >
-                  {signin === "signup" ? "Signing up" : "Loging In"}
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
-                >
-                  {signin === "signup" ? "Sign up" : "Log In"}
-                </button>
-              )}
+              <button
+                type="submit"
+                className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
+              >
+                {signin === "signup" ? "Sign up" : "Log In"}
+              </button>
             </form>
           </div>
           {signin === "login" && (
@@ -144,7 +124,7 @@ export default function SignIn({ providers }) {
                 onClick={handleSwitchToSignup}
                 className="text-blue-500 text-sm font-semibold"
               >
-                Sign Up
+                Sign up
               </button>
             </div>
           )}
@@ -166,9 +146,9 @@ export default function SignIn({ providers }) {
 }
 
 // This is the recommended way for Next.js 9.3 or newer
-// export async function getServerSideProps(context) {
-//   const providers = await getProviders();
-//   return {
-//     props: { providers },
-//   };
-// }
+export async function getServerSideProps(context) {
+  const providers = await getProviders();
+  return {
+    props: { providers },
+  };
+}
