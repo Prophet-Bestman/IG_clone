@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useContext, useEffect } from "react/cjs/react.development";
+import { useContext, useEffect } from "react";
 import Feed from "../components/Feed";
 import Header from "../components/Header";
 import Modal from "../components/Modal";
