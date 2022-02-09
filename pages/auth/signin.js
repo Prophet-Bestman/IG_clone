@@ -3,16 +3,41 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 import Header from "../../components/Header";
 import { auth } from "../../firebase";
-import { useRouter } from "next/router";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [signin, setSignin] = useState("login");
 
   const router = useRouter();
+  const notifyAuthError = () =>
+    toast("Wrong Email or Password", {
+      duration: 4000,
+      position: "top-center",
+      style: {
+        color: "red",
+      },
+    });
+  const notifyUniqueEmailError = () =>
+    toast("Email already in use", {
+      duration: 4000,
+      position: "top-center",
+      style: {
+        color: "red",
+      },
+    });
+  const notifyNetworkError = () =>
+    toast("Network error. Check your connection", {
+      duration: 4000,
+      position: "top-center",
+      style: {
+        color: "red",
+      },
+    });
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -28,6 +53,7 @@ export default function SignIn() {
   };
 
   const handelSignin = (e) => {
+    setLoading(true);
     e.preventDefault();
     setLoading(true);
     const email = credentials.email;
@@ -38,13 +64,20 @@ export default function SignIn() {
         localStorage.setItem("user", user);
         router.push("/");
       })
-      .catch(() => {});
-    // signIn(provider.id, { callbackUrl: "/" });
-    setLoading(false);
+      .catch((err) => {
+        const error = err.toString();
+        if (error.includes("auth/email-already-in-use")) {
+          notifyUniqueEmailError();
+        }
+        if (error.includes("(auth/network-request-failed)")) {
+          notifyNetworkError();
+        }
+        setLoading(false);
+      });
   };
   const handleLogin = (e) => {
-    e.preventDefault();
     setLoading(true);
+    e.preventDefault();
     const email = credentials.email;
     const password = credentials.password;
     signInWithEmailAndPassword(auth, email, password)
@@ -53,9 +86,16 @@ export default function SignIn() {
         localStorage.setItem("user", user);
         router.push("/");
       })
-      .catch(() => {});
-    // signIn(provider.id, { callbackUrl: "/" });
-    setLoading(false);
+      .catch((err) => {
+        const error = err.toString();
+        if (error.includes("auth/wrong-password")) {
+          notifyAuthError();
+        }
+        if (error.includes("(auth/network-request-failed)")) {
+          notifyNetworkError();
+        }
+        setLoading(false);
+      });
   };
 
   const handleSwitchToSignup = () => {
@@ -110,13 +150,23 @@ export default function SignIn() {
                 value={credentials.password}
                 onChange={(e) => handleChange(e)}
               />
-              <button
-                type="submit"
-                disabled={loading}
-                className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
-              >
-                {signin === "signup" ? "Sign up" : "Log In"}
-              </button>
+              {signin === "signup" ? (
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
+                >
+                  {loading ? "Signing up..." : "Sign up"}
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
+                >
+                  {loading ? "Logging in..." : "Log In"}
+                </button>
+              )}
             </form>
           </div>
           {signin === "login" && (

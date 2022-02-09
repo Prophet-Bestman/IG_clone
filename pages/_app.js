@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 import PostModalProvider from "../providers/modals/postmodal.provider";
 import AuthProvider from "../providers/auth/auth.provider";
+import { Toaster } from "react-hot-toast";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const queryClient = new QueryClient();
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <AuthProvider>
           <PostModalProvider>
             <Component {...pageProps} />
+            <Toaster />
           </PostModalProvider>
         </AuthProvider>
       </SessionProvider>
