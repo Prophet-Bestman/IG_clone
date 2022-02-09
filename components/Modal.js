@@ -25,6 +25,11 @@ const Modal = () => {
     };
   };
 
+  const uploadPost = () => {
+    if (loading) return;
+    setLoading(true);
+  };
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog

@@ -1,4 +1,3 @@
-import { getProviders, signIn } from "next-auth/react";
 import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -143,12 +142,4 @@ export default function SignIn({ providers }) {
       </div>
     </>
   );
-}
-
-// This is the recommended way for Next.js 9.3 or newer
-export async function getServerSideProps(context) {
-  const providers = await getProviders();
-  return {
-    props: { providers },
-  };
 }

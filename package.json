@@ -16,7 +16,7 @@
     "fake-data-generator": "^0.4.3",
     "faker": "^5.5.3",
     "firebase": "^9.6.1",
-    "next": "^12.0.7",
+    "next": "12.0.1",
     "next-auth": "4.0.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

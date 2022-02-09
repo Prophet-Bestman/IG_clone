@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useEffect } from "react/cjs/react.development";
 // import { USER_INITIAL_STATE } from "./auth.reducer";
 
@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: user, setUser: setUser }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );
