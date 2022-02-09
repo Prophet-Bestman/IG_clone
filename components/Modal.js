@@ -1,18 +1,24 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { CameraIcon, XCircleIcon, XIcon } from "@heroicons/react/outline";
-import React, {
-  useEffect,
-  Fragment,
-  useContext,
-  useState,
-  useRef,
-} from "react";
+import { CameraIcon, XCircleIcon } from "@heroicons/react/outline";
+import React, { Fragment, useContext, useState, useRef } from "react";
 import { PostModalContext } from "../providers/modals/postmodal.provider";
+import { AuthContext } from "../providers/auth/auth.provider";
+import { db, storage } from "../firebase";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const Modal = () => {
   const { isOpen, closeModal } = useContext(PostModalContext);
+  const { user } = useContext(AuthContext);
   const captionRef = useRef(null);
   const [selectedFile, setSelctedFile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const filePickerRef = useRef(null);
 
   const addImgToPost = (e) => {
@@ -25,16 +31,35 @@ const Modal = () => {
     };
   };
 
-  const uploadPost = () => {
+  const uploadPost = async () => {
     if (loading) return;
     setLoading(true);
+
+    const docRef = await addDoc(collection(db, "posts"), {
+      username: user.email,
+      caption: captionRef.current.value,
+      timestamp: serverTimestamp(),
+    });
+
+    const imageRef = ref(storage, `posts/${docRef.id}/image`);
+    await uploadString(imageRef, selectedFile, "data_url").then((snapshot) => {
+      getDownloadURL(imageRef).then(async (url) => {
+        await updateDoc(doc(db, "posts", docRef.id), {
+          image: url,
+        });
+      });
+    });
+
+    setLoading(false);
+    closeModal();
+    setSelctedFile(null);
   };
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className="fixed z-50 inset-0 overflow-y-auto"
         onClose={closeModal}
       >
         <div className="flex items-end justify-center min-h-[800px] sm-min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -111,8 +136,10 @@ const Modal = () => {
                   <button
                     type="button"
                     className="!w-full justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 active:scale-95 sm:ml-3 sm:w-auto sm:text-sm mx-0"
+                    onClick={uploadPost}
+                    disabled={loading}
                   >
-                    Upload Post
+                    {loading ? "Uploading..." : "Upload"}
                   </button>
                   {/* <button
                     type="button"

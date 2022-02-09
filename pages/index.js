@@ -8,7 +8,6 @@ import { AuthContext } from "../providers/auth/auth.provider";
 
 export default function Home() {
   const { user, setUser } = useContext(AuthContext);
-  console.log("user", user);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);

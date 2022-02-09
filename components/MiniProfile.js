@@ -18,6 +18,8 @@ const MiniProfile = () => {
     });
   };
 
+  // console.log(user);
+
   return (
     <div className="flex justify-between items-center mt-14">
       <img src="/dp.jfif" alt="" className="rounded-full border p-[2px] w-16" />

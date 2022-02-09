@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import { auth } from "../../firebase";
 import { useRouter } from "next/router";
 
-export default function SignIn({ providers }) {
+export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [signin, setSignin] = useState("login");
 
@@ -40,6 +40,7 @@ export default function SignIn({ providers }) {
       })
       .catch(() => {});
     // signIn(provider.id, { callbackUrl: "/" });
+    setLoading(false);
   };
   const handleLogin = (e) => {
     e.preventDefault();
@@ -54,6 +55,7 @@ export default function SignIn({ providers }) {
       })
       .catch(() => {});
     // signIn(provider.id, { callbackUrl: "/" });
+    setLoading(false);
   };
 
   const handleSwitchToSignup = () => {
@@ -110,6 +112,7 @@ export default function SignIn({ providers }) {
               />
               <button
                 type="submit"
+                disabled={loading}
                 className=" text-sm text-center bg-blue-500 hover:bg-blue-600 text-white py-1 rounded font-medium"
               >
                 {signin === "signup" ? "Sign up" : "Log In"}
