@@ -25,7 +25,7 @@ const BottomMenu = () => {
     });
   };
   return (
-    <div className="bg-white sticky bottom-0 left-0 w-full py-2 shadow-lg flex sm:hidden justify-center">
+    <div className="bg-white fixed bottom-0 left-0 w-full py-2 shadow-lg flex sm:hidden justify-center">
       <div className="flex space-x-6 items-center">
         {/* {!!user && <MenuIcon className="navMenu" />} */}
         {!!user ? (
