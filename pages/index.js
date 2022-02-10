@@ -2,8 +2,9 @@ import React, { useContext, useEffect } from "react";
 import Head from "next/head";
 import Feed from "../components/Feed";
 import Header from "../components/Header";
-import Modal from "../components/Modal";
+import PostModal from "../components/PostModal";
 import { AuthContext } from "../providers/auth/auth.provider";
+import Layout from "../components/Layout";
 // import PostModalProvider from "../providers/modals/postmodal.provider";
 
 export default function Home() {
@@ -17,14 +18,10 @@ export default function Home() {
         <title>Instagram Clone</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* Header */}
-      <Header />
-
-      {/* Feed */}
-      <Feed />
-
-      {/* Modal */}
-      <Modal />
+      <Layout>
+        <Feed />
+        <PostModal />
+      </Layout>
     </div>
   );
 }

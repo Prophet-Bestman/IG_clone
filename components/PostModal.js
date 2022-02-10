@@ -12,14 +12,25 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import toast from "react-hot-toast";
 
-const Modal = () => {
+const PostModal = () => {
   const { isOpen, closeModal } = useContext(PostModalContext);
   const { user } = useContext(AuthContext);
   const captionRef = useRef(null);
   const [selectedFile, setSelctedFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const filePickerRef = useRef(null);
+
+  const notifyPostSuccess = () =>
+    toast("Post Added", {
+      duration: 4000,
+      position: "top-center",
+      style: {
+        color: "green",
+        fontWeight: "bold",
+      },
+    });
 
   const addImgToPost = (e) => {
     const reader = new FileReader();
@@ -52,6 +63,7 @@ const Modal = () => {
 
     setLoading(false);
     closeModal();
+    notifyPostSuccess();
     setSelctedFile(null);
   };
 
@@ -135,9 +147,19 @@ const Modal = () => {
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 w-full sm:flex justify-center">
                   <button
                     type="button"
-                    className="!w-full justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 active:scale-95 sm:ml-3 sm:w-auto sm:text-sm mx-0"
+                    className={`!w-full justify-center rounded-md border border-transparent shadow-sm px-4 py-2 ${
+                      loading || !selectedFile ? "bg-red-200" : "bg-red-600"
+                    } text-base font-medium text-white ${
+                      loading || !selectedFile
+                        ? "hover:bg-red-300"
+                        : "hover:bg-red-700"
+                    } active:scale-95 sm:ml-3 sm:w-auto sm:text-sm mx-0 ${
+                      loading || !selectedFile
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
                     onClick={uploadPost}
-                    disabled={loading}
+                    disabled={loading || !selectedFile}
                   >
                     {loading ? "Uploading..." : "Upload"}
                   </button>
@@ -158,4 +180,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default PostModal;

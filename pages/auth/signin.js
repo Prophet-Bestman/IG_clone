@@ -14,8 +14,16 @@ export default function SignIn() {
   const [signin, setSignin] = useState("login");
 
   const router = useRouter();
-  const notifyAuthError = () =>
-    toast("Wrong Email or Password", {
+  const notifyEmailError = () =>
+    toast("This Email is not registered", {
+      duration: 4000,
+      position: "top-center",
+      style: {
+        color: "red",
+      },
+    });
+  const notifyPasswordError = () =>
+    toast("Wrong Password", {
       duration: 4000,
       position: "top-center",
       style: {
@@ -89,7 +97,14 @@ export default function SignIn() {
       .catch((err) => {
         const error = err.toString();
         if (error.includes("auth/wrong-password")) {
-          notifyAuthError();
+          notifyPasswordError();
+        }
+        if (
+          error.includes(
+            "(auth/invalid-email)" || error.includes("(auth/user-not-found)")
+          )
+        ) {
+          notifyEmailError();
         }
         if (error.includes("(auth/network-request-failed)")) {
           notifyNetworkError();

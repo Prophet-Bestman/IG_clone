@@ -6,6 +6,9 @@
   .navBtn {
     @apply h-6 hidden sm:inline-flex cursor-pointer hover:scale-125 transition-all duration-150 ease-out;
   }
+  .navBtnMobile {
+    @apply h-6 cursor-pointer hover:scale-125 transition-all duration-150 ease-out;
+  }
   .navMenu {
     @apply h-6 inline-flex sm:hidden cursor-pointer hover:scale-125 transition-all duration-150 ease-out;
   }

@@ -8,7 +8,6 @@ import {
   EmojiHappyIcon,
 } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
-import { useSession } from "next-auth/react";
 import { AuthContext } from "../providers/auth/auth.provider";
 
 const Post = ({ post }) => {
@@ -19,16 +18,16 @@ const Post = ({ post }) => {
       {/* Post  Header */}
       <div className="flex items-center py-5 px-2">
         <img
-          src={post.img}
+          src={post.image}
           className="object-contain p-1 mr-3 h-12 w-12 rounded-full"
           alt=""
         />
-        <p className="font-bold text-sm">{post.userName}</p>
+        <p className="font-bold text-sm">{post.username}</p>
         <DotsHorizontalIcon className="h-5 ml-auto" />
       </div>
       {/* Image */}
       <div>
-        <img src={post.img} className="w-full object-cover" alt="" />
+        <img src={post.image} className="w-full object-cover" alt="" />
       </div>
       {/* Buttons */}
       <div className="flex space-x-1 my-4">
@@ -44,7 +43,7 @@ const Post = ({ post }) => {
 
       {/* Caption */}
       <p>
-        <span className="text-sm font-bold">{post.userName} </span>{" "}
+        <span className="text-sm font-bold">{post.username} </span>{" "}
         {post.caption}
       </p>
 

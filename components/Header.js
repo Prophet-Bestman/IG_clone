@@ -9,20 +9,29 @@ import {
   HomeIcon,
   PlusCircleIcon,
 } from "@heroicons/react/outline";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { PostContext } from "../providers/posts/posts.provider";
 import { useContext } from "react";
+import { useRouter } from "next/router";
+
+import { PostContext } from "../providers/posts/posts.provider";
 import { PostModalContext } from "../providers/modals/postmodal.provider";
 import { AuthContext } from "../providers/auth/auth.provider";
 
 function Header() {
-  const { data: session } = useSession();
   const router = useRouter();
 
   const { isOpen, openModal } = useContext(PostModalContext);
   const { user, setUser } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      setUser({});
+      localStorage.clear();
+      router.reload();
+    });
+  };
 
   return (
     <div className="top-0 sticky z-50 bg-white border-b shadow-sm">
@@ -75,7 +84,7 @@ function Header() {
               <UserGroupIcon className="navBtn" />
               <HeartIcon className="navBtn" />
               <img
-                onClick={signOut}
+                onClick={handleSignOut}
                 src="/dp.jfif"
                 alt=""
                 className="rounded-full h-10 navBtn"

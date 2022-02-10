@@ -1,37 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import { useContext } from "react";
-
-import { PostContext } from "../providers/posts/posts.provider";
-
-// const posts = [
-//   {
-//     id: "1",
-//     userName: "Prophet Bestman",
-//     img: "/dp.jfif",
-//     caption: "I am the best developer. Just on the becoming journey",
-//   },
-//   {
-//     id: "2",
-//     userName: "Prophet Bestman",
-//     img: "/dp.jfif",
-//     caption: "I am the best developer. Just on the becoming journey",
-//   },
-//   {
-//     id: "3",
-//     userName: "Prophet Bestman",
-//     img: "/dp.jfif",
-//     caption: "I am the best developer. Just on the becoming journey",
-//   },
-// ];
+import { useQuery } from "react-query";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Posts = () => {
-  const { posts } = useContext(PostContext);
+  const [posts, setPosts] = useState([]);
+
+  // const { data: posts } = useQuery(
+  //   "posts",
+  //   onSnapshot(
+  //     query(collection(db, "posts"), orderBy("timestamp", "desc")),
+  //     (snapshot) => {
+  //       setPosts(snapshot.docs);
+  //     }
+  //   )
+  // );
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, "posts"), orderBy("timestamp", "desc")),
+        (snapshot) => setPosts(snapshot.docs)
+      ),
+    [db]
+  );
+
+  const data = posts.map((post) => post.data());
+
+  console.log(data);
+
   return (
     <div>
       <h1>Posts</h1>
       {posts.map((post) => (
-        <Post post={post} key={post.id} />
+        <Post post={post.data()} key={post.id} />
       ))}
       {/* Post */}
     </div>
