@@ -14,23 +14,27 @@ const Post = ({ post }) => {
   const { user, setUser } = useContext(AuthContext);
 
   return (
-    <div className="my-3.5">
+    <div className="my-5 py-4 shadow-sm">
       {/* Post  Header */}
-      <div className="flex items-center py-5 px-2">
+      <div className="flex items-center py-5 px-1">
         <img
           src={post.image}
-          className="object-contain p-1 mr-3 h-12 w-12 rounded-full"
+          className="object-cover p-1 mr-1 h-12 w-12 rounded-full"
           alt=""
         />
         <p className="font-bold text-sm">{post.username}</p>
         <DotsHorizontalIcon className="h-5 ml-auto" />
       </div>
       {/* Image */}
-      <div>
-        <img src={post.image} className="w-full object-cover" alt="" />
+      <div className="px-2 md:px-0">
+        <img
+          src={post.image}
+          className="w-full object-cover rounded-md"
+          alt=""
+        />
       </div>
       {/* Buttons */}
-      <div className="flex space-x-1 my-4">
+      <div className="flex space-x-1 my-4 px-2">
         {!!user && <HeartIcon className="btn" />}
         <ChatIcon className="btn" />
         {!!user && <PaperAirplaneIcon className="btn" />}
@@ -42,7 +46,7 @@ const Post = ({ post }) => {
       </div>
 
       {/* Caption */}
-      <p>
+      <p className="px-2">
         <span className="text-sm font-bold">{post.username} </span>{" "}
         {post.caption}
       </p>
