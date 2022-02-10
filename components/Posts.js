@@ -28,8 +28,6 @@ const Posts = () => {
 
   const data = posts.map((post) => post.data());
 
-  console.log(data);
-
   return (
     <div>
       <h1>Posts</h1>

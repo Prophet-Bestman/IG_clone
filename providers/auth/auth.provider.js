@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { useEffect } from "react/cjs/react.development";
-// import { USER_INITIAL_STATE } from "./auth.reducer";
 
 export const AuthContext = React.createContext("USER_INITIAL_STATE");
 

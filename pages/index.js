@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import Head from "next/head";
 import Feed from "../components/Feed";
-import Header from "../components/Header";
 import PostModal from "../components/PostModal";
 import { AuthContext } from "../providers/auth/auth.provider";
 import Layout from "../components/Layout";
@@ -11,7 +10,7 @@ export default function Home() {
   const { user, setUser } = useContext(AuthContext);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
+  }, [setUser]);
   return (
     <div className="bg-gray-50 min-h-screen">
       <Head>
