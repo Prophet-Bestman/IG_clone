@@ -11,6 +11,7 @@ import { AuthContext } from "../providers/auth/auth.provider";
 import { PostModalContext } from "../providers/modals/postmodal.provider";
 import Link from "next/link";
 import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const BottomMenu = () => {
   const router = useRouter();
