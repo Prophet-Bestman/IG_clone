@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BookmarkIcon,
   ChatIcon,
@@ -7,11 +7,53 @@ import {
   PaperAirplaneIcon,
   EmojiHappyIcon,
 } from "@heroicons/react/outline";
+
 import { HeartIcon as HeartIconFilled } from "@heroicons/react/solid";
 import { AuthContext } from "../providers/auth/auth.provider";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "../firebase";
+import Comments from "./Comments";
 
 const Post = ({ post }) => {
+  const id = post.id;
+  post = post.data();
   const { user, setUser } = useContext(AuthContext);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const sendComment = async (e) => {
+    e.preventDefault();
+    const commentText = comment;
+    setComment("");
+
+    await addDoc(collection(db, "posts", id, "comments"), {
+      comment: commentText,
+      username: user?.email,
+      userImage: "#000",
+      timestamp: serverTimestamp(),
+    });
+  };
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "posts", id, "comments"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => {
+          setComments(snapshot.docs);
+        }
+      ),
+    [db]
+  );
 
   return (
     <div className="my-5 py-4 shadow-sm">
@@ -52,6 +94,7 @@ const Post = ({ post }) => {
       </p>
 
       {/* Comments */}
+      {comments.length > 0 && <Comments comments={comments} />}
 
       {/* Input Box */}
       {!!user && (
@@ -62,10 +105,19 @@ const Post = ({ post }) => {
             </div>
             <input
               type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               placeholder="Type your comment"
               className="focus:ring-black w-full rounded-md sm:text-sm bg-gray-50 border-gray-300 focus:border-black pl-10"
             />
-            <button className="ml-5 font-bold text-blue-400">Post</button>
+            <button
+              type="submit"
+              disabled={!comment.trim()}
+              onClick={(e) => sendComment(e)}
+              className="ml-5 font-bold text-blue-400"
+            >
+              Post
+            </button>
           </div>
         </form>
       )}

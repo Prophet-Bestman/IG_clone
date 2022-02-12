@@ -7,16 +7,6 @@ import { db } from "../firebase";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
 
-  // const { data: posts } = useQuery(
-  //   "posts",
-  //   onSnapshot(
-  //     query(collection(db, "posts"), orderBy("timestamp", "desc")),
-  //     (snapshot) => {
-  //       setPosts(snapshot.docs);
-  //     }
-  //   )
-  // );
-
   useEffect(
     () =>
       onSnapshot(
@@ -26,13 +16,11 @@ const Posts = () => {
     [db]
   );
 
-  const data = posts.map((post) => post.data());
-
   return (
     <div>
       <h1>Posts</h1>
       {posts.map((post) => (
-        <Post post={post.data()} key={post.id} />
+        <Post post={post} key={post.id} />
       ))}
       {/* Post */}
     </div>
