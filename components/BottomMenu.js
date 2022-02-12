@@ -10,6 +10,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../providers/auth/auth.provider";
 import { PostModalContext } from "../providers/modals/postmodal.provider";
 import Link from "next/link";
+import { signOut } from "firebase/auth";
 
 const BottomMenu = () => {
   const router = useRouter();
