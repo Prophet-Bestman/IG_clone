@@ -12,6 +12,12 @@ import { auth } from "../../firebase";
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [signin, setSignin] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
 
   const router = useRouter();
   const notifyEmailError = () =>
@@ -47,24 +53,20 @@ export default function SignIn() {
       },
     });
 
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
-
   const handleChange = (e) => {
     const value = e.target.value;
     setCredentials({
       ...credentials,
-      [e.target.id]: value,
+      [e.target.name]: value,
     });
   };
 
   const handelSignin = (e) => {
     setLoading(true);
     e.preventDefault();
+
     setLoading(true);
-    const email = credentials.email;
+    const email = credentials.email.replace(/\s/g, "");
     const password = credentials.password;
     createUserWithEmailAndPassword(auth, email, password)
       .then((cred) => {
@@ -86,8 +88,10 @@ export default function SignIn() {
   const handleLogin = (e) => {
     setLoading(true);
     e.preventDefault();
-    const email = credentials.email;
+
+    const email = credentials.email.replace(/\s/g, "");
     const password = credentials.password;
+
     signInWithEmailAndPassword(auth, email, password)
       .then((cred) => {
         const user = JSON.stringify(cred.user);
@@ -150,15 +154,18 @@ export default function SignIn() {
               <input
                 autoFocus
                 className="text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
-                id="email"
+                // id="email"
+                name="email"
                 placeholder="Email"
                 type="text"
                 value={credentials.email}
                 onChange={(e) => handleChange(e)}
+                // onChange={(e)}
               />
               <input
                 className="text-xs w-full mb-4 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none"
-                id="password"
+                // id="password"
+                name="password"
                 placeholder="Password"
                 type="password"
                 value={credentials.password}
