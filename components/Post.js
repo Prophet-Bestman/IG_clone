@@ -33,8 +33,6 @@ const Post = ({ post }) => {
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
 
-  console.log(liked);
-
   const sendComment = async (e) => {
     e.preventDefault();
     const commentText = comment;
