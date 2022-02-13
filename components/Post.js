@@ -13,10 +13,13 @@ import { AuthContext } from "../providers/auth/auth.provider";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import Comments from "./Comments";
@@ -27,6 +30,10 @@ const Post = ({ post }) => {
   const { user, setUser } = useContext(AuthContext);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState([]);
+  const [liked, setLiked] = useState(false);
+
+  console.log(liked);
 
   const sendComment = async (e) => {
     e.preventDefault();
@@ -41,6 +48,7 @@ const Post = ({ post }) => {
     });
   };
 
+  // Listen for Comments
   useEffect(
     () =>
       onSnapshot(
@@ -52,7 +60,32 @@ const Post = ({ post }) => {
           setComments(snapshot.docs);
         }
       ),
-    [db]
+    [db, id]
+  );
+
+  const likePost = async () => {
+    if (liked) {
+      await deleteDoc(doc(db, "posts", id, "likes", user.uid));
+    } else {
+      await setDoc(doc(db, "posts", id, "likes", user.uid), {
+        username: user.email,
+      });
+    }
+  };
+
+  // Listen for Likes
+  useEffect(
+    () =>
+      onSnapshot(query(collection(db, "posts", id, "likes")), (snapshot) => {
+        setLikes(snapshot.docs);
+      }),
+    [db, id]
+  );
+
+  // Listen for Liked by user
+  useEffect(
+    () => setLiked(likes.findIndex((like) => like.id === user?.uid) !== -1),
+    [likes]
   );
 
   return (
@@ -76,18 +109,33 @@ const Post = ({ post }) => {
         />
       </div>
       {/* Buttons */}
-      <div className="flex space-x-1 my-4 px-2">
-        {!!user && <HeartIcon className="btn" />}
-        <ChatIcon className="btn" />
-        {!!user && <PaperAirplaneIcon className="btn" />}
-        {!!user && (
+      {!!user && (
+        <div className="flex space-x-2 my-4 px-2">
+          {liked ? (
+            <HeartIconFilled onClick={likePost} className="btn text-red-500" />
+          ) : (
+            <HeartIcon onClick={likePost} className="btn" />
+          )}
+          <ChatIcon className="btn" />
+          <PaperAirplaneIcon className="btn rotate-45" />
+
           <div className="flex flex-1">
             <BookmarkIcon className="btn ml-auto" />
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Caption */}
+      {likes.length > 0 && (
+        <span className="font-bold text-xs">
+          {likes.length} {likes.length > 1 ? "Likes" : "Like"},
+        </span>
+      )}
+      {comments.length > 0 && (
+        <span className="ml-2 font-bold text-xs">
+          {comments.length} {comments.length > 1 ? "Comments" : "Comment"}
+        </span>
+      )}
       <p className="px-2">
         <span className="text-sm font-bold">{post.username} </span>{" "}
         {post.caption}

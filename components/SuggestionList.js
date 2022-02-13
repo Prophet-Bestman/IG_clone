@@ -6,7 +6,7 @@ const SuggestionList = ({ suggestions }) => {
     <div>
       {!!suggestions &&
         suggestions.map((suggestion, i) => (
-          <Suggestion id={i} data={suggestion} />
+          <Suggestion key={i} data={suggestion} />
         ))}
     </div>
   );
