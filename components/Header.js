@@ -83,12 +83,14 @@ function Header() {
               <PlusCircleIcon onClick={openModal} className="navBtn" />
               <UserGroupIcon className="navBtn" />
               <HeartIcon className="navBtn" />
-              <img
-                onClick={handleSignOut}
-                src="/dp.jfif"
-                alt=""
-                className="rounded-full h-10 navBtn"
-              />
+              <Link href="/profile">
+                <img
+                  // onClick={handleSignOut}
+                  src="/dp.jfif"
+                  alt=""
+                  className="rounded-full h-10 navBtn"
+                />
+              </Link>
             </>
           ) : (
             <button className="text-sm w-12 !ml-0 text-blue-500 font-semibold">
