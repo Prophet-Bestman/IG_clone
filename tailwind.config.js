@@ -3,7 +3,13 @@ module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primaryBtn: "#0095F6",
+        primaryBtnHover: "#1196f7",
+        text: "#262626",
+      },
+    },
   },
   variants: {
     extend: {},

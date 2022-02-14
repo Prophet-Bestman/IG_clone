@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <div className="relative">
       <Header />
-      <div className="max-w-6xl lg:mx-auto">{children}</div>
+      <div className="max-w-6xl px-4 lg:mx-auto">{children}</div>
       <BottomMenu />
     </div>
   );
