@@ -7,13 +7,12 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
 import Header from "../../components/Header";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [signin, setSignin] = useState("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -61,16 +60,27 @@ export default function SignIn() {
     });
   };
 
-  const handelSignin = (e) => {
+  const handelSignin = async (e) => {
     setLoading(true);
     e.preventDefault();
 
     setLoading(true);
     const email = credentials.email.replace(/\s/g, "");
     const password = credentials.password;
+
+    // Create a user in database user collection
+    await setDoc(doc(db, "users", email), {
+      email: email,
+      followers: 0,
+      following: 0,
+      posts: 0,
+    });
+
     createUserWithEmailAndPassword(auth, email, password)
-      .then((cred) => {
+      .then(async (cred) => {
         const user = JSON.stringify(cred.user);
+
+        // Update Local storage with user
         localStorage.setItem("user", user);
         router.push("/");
       })
@@ -95,6 +105,8 @@ export default function SignIn() {
     signInWithEmailAndPassword(auth, email, password)
       .then((cred) => {
         const user = JSON.stringify(cred.user);
+
+        // Update Local storage with user
         localStorage.setItem("user", user);
         router.push("/");
       })

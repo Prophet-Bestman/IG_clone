@@ -3,9 +3,24 @@ import { BsGrid3X3 } from "react-icons/bs";
 import { RiPriceTag2Line } from "react-icons/ri";
 import { MdOutlineVideoLibrary } from "react-icons/md";
 import { IoIosPhotos } from "react-icons/io";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../providers/auth/auth.provider";
 
-const ProfilePosts = () => {
+const ProfilePosts = ({ posts }) => {
+  const { user, setUser } = useContext(AuthContext);
+  const [userPosts, setUserPosts] = useState([]);
+
+  useEffect(() => {
+    // console.log("User Posts", posts);
+    const mappedPosts = posts.map((post) => post.data());
+    console.log("Mapped Posts", mappedPosts);
+    const filteredPosts = mappedPosts.filter(
+      (post) => post.username === user.email
+    );
+    setUserPosts(filteredPosts);
+  }, [posts]);
+
+  console.log("User Posts", userPosts);
   const postImages = [
     { url: "/dp.jfif" },
     { url: "/dp.jfif" },
@@ -87,9 +102,13 @@ const ProfilePosts = () => {
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel className="grid grid-cols-3 gap-[1px] md:gap-4">
-            {postImages.map((image) => (
+            {userPosts.map((post) => (
               <div className="relative col-span-1">
-                <img src={image.url} alt="" className=" w-full object-cover" />
+                <img
+                  src={post.image}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
                 <IoIosPhotos className="absolute text-white shadow drop-shadow-lg text-sm sm:text-base md:text-xl top-1 right-1 md:top-3 md:right-3" />
               </div>
             ))}
@@ -97,7 +116,11 @@ const ProfilePosts = () => {
           <Tab.Panel className="grid grid-cols-3 gap-[1px] md:gap-4">
             {reels.map((image) => (
               <div className="relative col-span-1">
-                <img src={image.url} alt="" className=" w-full object-cover" />
+                <img
+                  src={image.url}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
                 <IoIosPhotos className="absolute text-white shadow drop-shadow-lg text-sm sm:text-base md:text-xl top-1 right-1 md:top-3 md:right-3" />
               </div>
             ))}
@@ -105,7 +128,11 @@ const ProfilePosts = () => {
           <Tab.Panel className="grid grid-cols-3 gap-[1px] md:gap-4">
             {tags.map((image) => (
               <div className="relative col-span-1">
-                <img src={image.url} alt="" className=" w-full object-cover" />
+                <img
+                  src={image.url}
+                  alt=""
+                  className=" w-full h-full object-cover"
+                />
                 <IoIosPhotos className="absolute text-white shadow drop-shadow-lg text-sm sm:text-base md:text-xl top-1 right-1 md:top-3 md:right-3" />
               </div>
             ))}

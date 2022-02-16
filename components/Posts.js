@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import { useQuery } from "react-query";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
 
