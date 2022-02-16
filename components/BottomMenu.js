@@ -19,13 +19,6 @@ const BottomMenu = () => {
   const { isOpen, openModal } = useContext(PostModalContext);
   const { user, setUser } = useContext(AuthContext);
 
-  const handleSignOut = () => {
-    signOut(auth).then(() => {
-      setUser({});
-      localStorage.clear();
-      router.reload();
-    });
-  };
   return (
     <div className="bg-white fixed bottom-0 left-0 w-full py-2 shadow-lg flex sm:hidden justify-center">
       <div className="flex space-x-6 items-center">

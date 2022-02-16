@@ -72,7 +72,11 @@ function Header() {
         {/* Right */}
 
         <div className="flex space-x-4 items-center">
-          {!!user && <MenuIcon className="navMenu" />}
+          {!!user && (
+            <button className="font-bold text-blue-400" onClick={handleSignOut}>
+              Log Out
+            </button>
+          )}
           <HomeIcon onClick={() => router.push("/")} className="navBtn" />
           {!!user ? (
             <>
