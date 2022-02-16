@@ -21,17 +21,6 @@ const ProfilePosts = ({ posts }) => {
   }, [posts]);
 
   console.log("User Posts", userPosts);
-  const postImages = [
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-    { url: "/dp.jfif" },
-  ];
 
   const reels = [
     { url: "/profile_picture.jpeg" },

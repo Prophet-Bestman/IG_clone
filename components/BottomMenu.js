@@ -32,10 +32,12 @@ const BottomMenu = () => {
         {/* {!!user && <MenuIcon className="navMenu" />} */}
         {!!user ? (
           <>
-            <HomeIcon
-              onClick={() => router.push("/")}
-              className="navBtnMobile"
-            />
+            <Link href="/">
+              <HomeIcon
+                onClick={() => router.push("/")}
+                className="navBtnMobile"
+              />
+            </Link>
             <div className="navBtnMobile relative">
               <PaperAirplaneIcon className="navBtnMobile rotate-45" />
               <div className="notification ">3</div>
@@ -43,12 +45,13 @@ const BottomMenu = () => {
             <PlusCircleIcon onClick={openModal} className="navBtnMobile" />
             <UserGroupIcon className="navBtnMobile" />
             <HeartIcon className="navBtnMobile" />
-            <img
-              onClick={handleSignOut}
-              src="/dp.jfif"
-              alt=""
-              className="rounded-full h-10 navBtnMobile"
-            />
+            <Link href="/profile">
+              <img
+                src="/dp.jfif"
+                alt=""
+                className="rounded-full h-10 navBtnMobile"
+              />
+            </Link>
           </>
         ) : (
           <button className="text-sm w-12 !ml-0 text-blue-500 font-semibold">
